@@ -631,7 +631,14 @@ gapp.register("kiri.init", [], (root, exports) => {
             "  <label>your workspace and settings</label>" :
             "  <label>your device profiles and settings</label><br>",
             `  <div class='f-row' style="display:${workspace ? 'none' : ''}">`,
-            `  <input id='incwork' type='checkbox'${checked}>&nbsp;include workspace`,
+            `    <input id='incwork' type='checkbox'${checked}>&nbsp;include workspace`,
+            "  </div>",
+            "  <br/>",
+            "  <div class='f-row box export-filetype'>",
+            "    <input name='filetype' id='filetype-json' type='radio' checked>",
+            "    <label for='filetype-json'><code>.json</code></label>",
+            "    <input name='filetype' id='filetype-kmz' type='radio'>",
+            "    <label for='filetype-kmz'><code>.kmz</code></label>",
             "  </div>",
             "</div>"
         ]};
@@ -640,14 +647,18 @@ gapp.register("kiri.init", [], (root, exports) => {
                 let work = $('incwork').checked;
                 let json = api.conf.export({work, clear:true});
 
-                kiri.client.zip([
-                    {name:"workspace.json", data:JSON.stringify(json)}
-                ], progress => {
-                    api.show.progress(progress.percent/100, "compressing workspace");
-                }, output => {
-                    api.show.progress(0);
-                    api.util.download(output, `${name}.kmz`);
-                });
+                if ($('filetype-json').checked) {
+                    api.util.download(JSON.stringify(json, null, 2), `${name}.json`);
+                } else {
+                    kiri.client.zip([
+                        {name:"workspace.json", data:JSON.stringify(json)}
+                    ], progress => {
+                        api.show.progress(progress.percent/100, "compressing workspace");
+                    }, output => {
+                        api.show.progress(0);
+                        api.util.download(output, `${name}.kmz`);
+                    });
+                }
             }
         });
     }

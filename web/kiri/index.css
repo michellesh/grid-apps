@@ -82,6 +82,9 @@ button[load] {
 button[del] {
     margin-left: 5px;
 }
+.export-filetype {
+  text-transform: lowercase;
+}
 input {
     background-color: #eeeeeed6;
     margin-bottom: 1px;

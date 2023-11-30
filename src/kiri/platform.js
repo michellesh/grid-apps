@@ -724,6 +724,7 @@ function platformLoadFiles(files, group) {
             isgcode = lower.indexOf(".gcode") > 0 || lower.indexOf(".nc") > 0,
             isset = lower.indexOf(".b64") > 0 || lower.indexOf(".km") > 0,
             iskmz = lower.indexOf(".kmz") > 0,
+            isjson = lower.indexOf(".json") > 0,
             isini = lower.indexOf(".ini") > 0;
         reader.file = files[i];
         reader.onloadend = function(e) {
@@ -827,6 +828,7 @@ function platformLoadFiles(files, group) {
                 }
                 load_dec();
             } else if (iskmz) api.settings.import_zip(e.target.result, true);
+            else if (isjson) api.settings.import_json(e.target.result, true);
             else if (isset) api.settings.import(e.target.result, true);
             else if (ispng) api.image.dialog(e.target.result, e.target.file.name);
             else if (isjpg) api.image.convert(e.target.result, e.target.file.name);

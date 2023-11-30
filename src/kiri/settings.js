@@ -624,6 +624,10 @@ function settingsImportUrl(url, ask) {
     });
 }
 
+function settingsImportJSON(data, ask) {
+  settingsImport(JSON.parse(data), ask);
+}
+
 function settingsImportZip(data, ask) {
     let alert = api.show.alert("Importing Workspace");
     JSZip.loadAsync(data).then(zip => {
@@ -753,6 +757,7 @@ api.settings = {
     get: getSettings,
     import: settingsImport,
     import_zip: settingsImportZip,
+    import_json: settingsImportJSON,
     import_url: settingsImportUrl,
     import_prusa: settingsPrusaConvert,
     dev()  { return settings.device },
